@@ -32,16 +32,24 @@
         </div>
       </div>
     </div>
+    <shop-cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shop-cart>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
   import BScroll from 'better-scroll'
+  import ShopCart from '@/components/shopcart/Shopcart'
 
   const ERR_OK = 0
   export default {
     name: 'Goods',
+    components: {
+      ShopCart
+    },
+    props: {
+      seller: Object
+    },
     data: function () {
       return {
         classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
@@ -80,6 +88,7 @@
         let goodslist = this.$refs.goodWrapper.getElementsByClassName('food-list')
         let checkitem = goodslist[index]
         this.goodScroll.scrollToElement(checkitem)
+        this.scrollY = this.listHeight[index]
       },
       initScroll: function () {
         /**
