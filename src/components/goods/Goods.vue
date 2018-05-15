@@ -27,6 +27,9 @@
                 <span class="now">${{food.price}}</span><span class="old"
                                                               v-show="food.oldPrice">${{food.oldPrice}}</span>
               </div>
+              <div class="cart-control-wrapper">
+                <cart-control :food="food"></cart-control>
+              </div>
             </div>
           </div>
         </div>
@@ -40,12 +43,14 @@
   import axios from 'axios'
   import BScroll from 'better-scroll'
   import ShopCart from '@/components/shopcart/Shopcart'
+  import CartControl from '@/components/cartcontrol/CartControl'
 
   const ERR_OK = 0
   export default {
     name: 'Goods',
     components: {
-      ShopCart
+      ShopCart,
+      CartControl
     },
     props: {
       seller: Object
@@ -99,6 +104,7 @@
             click: true
           })
           this.goodScroll = new BScroll(this.$refs.goodWrapper, {
+            click: true,
             probeType: 3
           })
           /**
@@ -225,6 +231,7 @@
             margin-right 10px
           .content
             flex 1
+            position relative
             .name
               margin 2px 0 8px 0
               font-size 14px
@@ -254,4 +261,8 @@
                 color rgb(147, 153, 159)
                 font-size 10px
 
+            .cart-control-wrapper
+              position absolute
+              right 0
+              bottom -8px
 </style>
