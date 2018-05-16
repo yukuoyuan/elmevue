@@ -1,6 +1,6 @@
 <template>
   <div class="short-cart">
-    <div class="content">
+    <div class="content" @click="toggleList">
       <div class="content-left">
         <div class="logo-wrapper">
           <div class="logo" :class="totalCount>0?'highlight':''">
@@ -23,10 +23,31 @@
         </div>
       </transition-group>
     </div>
+    <div class="short-cart-list" v-show="listShow">
+      <div class="list-header">
+        <h1 class="title">购物车</h1>
+        <span class="empty">清空</span>
+      </div>
+      <div class="list-content">
+        <ul>
+          <li v-for="(food,index) of selectFoods" :key="index" class="food">
+            <span class="name">{{food.name}}</span>
+            <div class="price">
+              <span>${{food.price*food.count}}</span>
+            </div>
+            <div class="cartcontrol-wrapper">
+              <cart-control :food="food"></cart-control>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import CartControl from '@/components/cartcontrol/CartControl'
+
   export default {
     name: 'Shopcart',
     props: {
@@ -58,7 +79,8 @@
             show: false
           }
         ],
-        dropBalls: []
+        dropBalls: [],
+        fold: true
       }
     },
     computed: {
@@ -92,9 +114,27 @@
         } else {
           return 'enough'
         }
+      },
+      listShow: function () {
+        if (!this.totalCount) {
+          return false
+        }
+        return !this.fold
       }
     },
     methods: {
+      /**
+       * 是否折叠
+       */
+      toggleList: function () {
+        /**
+         * 如果没有数据的话那么久返回空
+         */
+        if (!this.totalCount) {
+          this.fold = true
+        }
+        this.fold = !this.fold
+      },
       shopcartTargets: function (el) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i]
@@ -144,6 +184,9 @@
           ball.show = false
         }
       }
+    },
+    components: {
+      CartControl
     }
   }
 </script>
@@ -237,7 +280,6 @@
             background #00b43c
             color white
     .ball-container
-      transition all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
       .ball
         position: fixed
         left 32px
@@ -247,5 +289,51 @@
         height 16px
         border-radius 50%
         background rgb(0, 160, 220)
-        transition all 0.4s linear
+        transition all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+    .short-cart-list
+      position absolute
+      top: 0
+      left 0
+      z-index 1
+      width 100%
+      .list-header
+        height 40px
+        line-height 40px
+        padding 0 18px
+        background #f3f5f7
+        border-bottom 1px solid rgba(7, 17, 27, 0.1)
+        .title
+          float left
+          font-size 14px
+          color rgb(7, 17, 27)
+        .empty
+          float right
+          font-size 12px
+          color rgb(0, 160, 220)
+      .list-content
+        padding 0 18px
+        max-height 217px
+        overflow hidden
+        background white
+        .food
+          position relative
+          padding: 12px 0
+          box-sizing border-box
+          border-bottom 1px solid rgba(7, 17, 27, 0.1)
+          .name
+            line-height 24px
+            font-size 14px
+            color rgb(7, 17, 27)
+          .price
+            position: absolute;
+            right 10px
+            bottom 12px
+            line-height 24px
+            font-size 14px
+            font-weight bold
+            color rgb(240, 20, 20)
+          .cartcontrol-wrapper
+            position: absolute;
+            bottom 6px
+            right 0
 </style>
