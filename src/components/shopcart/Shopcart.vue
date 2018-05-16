@@ -17,6 +17,12 @@
         </div>
       </div>
     </div>
+    <div class="ball-container">
+      <transition-group name="drop" tag="div" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+        <div class="ball" v-for="(ball,index) of balls" v-show="ball.show" :key="index">
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -31,6 +37,28 @@
         default: function () {
           return []
         }
+      }
+    },
+    data: function () {
+      return {
+        balls: [
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          }
+        ],
+        dropBalls: []
       }
     },
     computed: {
@@ -63,6 +91,57 @@
           return 'not-enough'
         } else {
           return 'enough'
+        }
+      }
+    },
+    methods: {
+      shopcartTargets: function (el) {
+        for (let i = 0; i < this.balls.length; i++) {
+          let ball = this.balls[i]
+          if (!ball.show) {
+            ball.show = true
+            ball.el = el
+            this.dropBalls.push(ball)
+            return
+          }
+        }
+      },
+      // --------
+      // 进入中
+      // --------
+      beforeEnter: function (el) {
+        this.balls.forEach((ball) => {
+          if (ball.show) {
+            let react = ball.el.getBoundingClientRect()
+            /**
+             * 获取小球xy的偏移
+             * @type {number}
+             */
+            let x = react.x - 32
+            let y = -(window.innerHeight - react.top - 22)
+            el.style.webkitTransform = `translate3d(${x}px,${y}px,0)`
+            el.style.transform = `translate3d(${x}px,${y}px,0)`
+          }
+        })
+      },
+      // 此回调函数是可选项的设置
+      // 与 CSS 结合时使用
+      enter: function (el, done) {
+        /* eslint-disable no-unused-vars */
+        let ref = el.offsetHeight
+        this.$nextTick(() => {
+          el.style.webkitTransform = 'translate3d(0,0,0)'
+          el.style.transform = 'translate3d(0,0,0)'
+        })
+        done()
+      },
+      afterEnter: function (el) {
+        /**
+         * 删除并返回第一个元素
+         */
+        let ball = this.dropBalls.shift()
+        if (ball) {
+          ball.show = false
         }
       }
     }
@@ -157,4 +236,16 @@
           &.enough
             background #00b43c
             color white
+    .ball-container
+      transition all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+      .ball
+        position: fixed
+        left 32px
+        bottom 22px
+        z-index: 200
+        width 16px
+        height 16px
+        border-radius 50%
+        background rgb(0, 160, 220)
+        transition all 0.4s linear
 </style>

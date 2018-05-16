@@ -28,14 +28,16 @@
                                                               v-show="food.oldPrice">${{food.oldPrice}}</span>
               </div>
               <div class="cart-control-wrapper">
-                <cart-control :food="food"></cart-control>
+                <cart-control :food="food" @addCartTarget="addCartTargetClick"></cart-control>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <shop-cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shop-cart>
+    <shop-cart ref="shopcart" :deliveryPrice="seller.deliveryPrice"
+               :minPrice="seller.minPrice"
+               :selectFoods="selectFoods"></shop-cart>
   </div>
 </template>
 
@@ -137,6 +139,13 @@
            */
           this.listHeight.push(height)
         }
+      },
+      /**
+       *当点击添加按钮的时候监听
+       */
+      addCartTargetClick: function (target) {
+        // this.shopcartTarget = target
+        this.$refs.shopcart.shopcartTargets(target)
       }
     },
     computed: {
@@ -152,6 +161,17 @@
           }
         }
         return 0
+      },
+      selectFoods: function () {
+        let selectFoods = []
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count && food.count > 0) {
+              selectFoods.push(food)
+            }
+          })
+        })
+        return selectFoods
       }
     }
   }
