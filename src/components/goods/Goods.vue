@@ -183,7 +183,7 @@
   .goods
     display flex
     position absolute
-    top: 182px
+    top: 174px
     bottom 46px
     width 100%
     overflow hidden
@@ -250,8 +250,8 @@
             flex 0 0 57px
             margin-right 10px
           .content
-            flex 1
             position relative
+            flex 1
             .name
               margin 2px 0 8px 0
               font-size 14px
@@ -280,7 +280,6 @@
                 text-decoration line-through
                 color rgb(147, 153, 159)
                 font-size 10px
-
             .cart-control-wrapper
               position absolute
               right 0
