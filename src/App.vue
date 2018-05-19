@@ -20,7 +20,6 @@
   import HomeHeader from '@/components/header/Header'
   import axios from 'axios'
 
-  const ERR_OK = 0
   export default {
     name: 'App',
     data: function () {
@@ -33,11 +32,9 @@
     },
     methods: {},
     created: function () {
-      axios.get('http://localhost:3030/api/seller/').then((res) => {
-        res = res.data
-        if (res.code === ERR_OK) {
-          this.seller = res.list
-        }
+      axios.get('/api/seller/').then((res) => {
+        res = res.data.data
+        this.seller = res
       })
     }
   }

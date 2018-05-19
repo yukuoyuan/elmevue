@@ -89,9 +89,9 @@
       RatingSelect
     },
     created: function () {
-      axios.get('http://localhost:3030/api/ratings').then((res) => {
-        res = res.data
-        this.ratings = res.list
+      axios.get('/api/ratings/').then((res) => {
+        res = res.data.data
+        this.ratings = res
         this.$nextTick(() => {
           this.scroll = new BScroll(this.$refs.ratings, {
             click: true

@@ -51,7 +51,6 @@
   import CartControl from '@/components/cartcontrol/CartControl'
   import Food from '@/components/food/Food'
 
-  const ERR_OK = 0
   export default {
     name: 'Goods',
     components: {
@@ -72,19 +71,16 @@
       }
     },
     created: function () {
-      axios.get('http://localhost:3030/api/goods/').then((res) => {
-        res = res.data
-        if (res.code === ERR_OK) {
-          this.goods = res.list
-          /**
-           * 延迟去初始化滚动,因为这个时候dom还没有更新完毕,类似于settimeout的延时操作
-           */
-          this.$nextTick(() => {
-            this.initScroll()
-            this.caculateHeight()
-          })
-        }
-        console.log(res)
+      axios.get('/api/goods/').then((res) => {
+        res = res.data.data
+        this.goods = res
+        /**
+         * 延迟去初始化滚动,因为这个时候dom还没有更新完毕,类似于settimeout的延时操作
+         */
+        this.$nextTick(() => {
+          this.initScroll()
+          this.caculateHeight()
+        })
       })
     },
     methods: {
