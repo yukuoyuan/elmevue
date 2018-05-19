@@ -55,7 +55,6 @@
         if (!event._constructed) {
           return
         }
-        console.log(type)
         this.$emit('ratingtypeselect', type)
       },
       toggleContent: function (event) {

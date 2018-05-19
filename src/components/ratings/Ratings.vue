@@ -1,5 +1,5 @@
 <template>
-  <div class="ratings">
+  <div class="ratings" ref="ratings">
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left">
@@ -25,10 +25,33 @@
         </div>
       </div>
       <split></split>
-      <rating-select @onlyContentchecked="onlyContentchecked" @ratingtypeselect="ratingtypeselect"
-                     :selectType="selectType"
-                     :onlyContent="onlyContent"
-                     :ratings="ratings"></rating-select>
+      <rating-select :selectType="selectType" :onlyContent="onlyContent" @ratingtypeselect="ratingtypeselect"
+                     @onlyContentchecked="onlyContentchecked" :desc="desc" :ratings="ratings"></rating-select>
+      <div class="rating-wrapper">
+        <ul>
+          <li v-for="(rating,index) in ratings" v-show="needShow(rating.rateType, rating.text)" class="rating-item"
+              :key="index">
+            <div class="avatar">
+              <img width="28" height="28" :src="rating.avatar">
+            </div>
+            <div class="content">
+              <h1 class="name">{{rating.username}}</h1>
+              <div class="star-wrapper">
+                <star :size="24" :score="rating.score"></star>
+                <span class="delivery" v-show="rating.deliveryTime">{{rating.deliveryTime}}</span>
+              </div>
+              <p class="text">{{rating.text}}</p>
+              <div class="recommend" v-show="rating.recommend && rating.recommend.length">
+                <span class="icon-thumb_up"></span>
+                <span class="item" v-for="(item,indexs) in rating.recommend" :key="indexs">{{item}}</span>
+              </div>
+              <div class="time">
+                {{rating.rateTime | formatDate}}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -38,8 +61,9 @@
   import Split from '@/components/split/Split'
   import RatingSelect from '@/components/ratingselect/RatingSelect'
   import axios from 'axios'
+  import {formatDate} from '@/common/js/date'
+  import BScroll from 'better-scroll'
 
-  const ALL = 2
   export default {
     name: 'Ratings',
     props: {
@@ -50,7 +74,7 @@
     data: function () {
       return {
         ratings: [],
-        selectType: ALL,
+        selectType: 2,
         onlyContent: true,
         desc: {
           all: '全部',
@@ -68,6 +92,11 @@
       axios.get('http://localhost:3030/api/ratings').then((res) => {
         res = res.data
         this.ratings = res.list
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$refs.ratings, {
+            click: true
+          })
+        })
       })
     },
     methods: {
@@ -76,8 +105,25 @@
       },
       onlyContentchecked: function () {
         this.onlyContent = !this.onlyContent
+      },
+      needShow: function (type, text) {
+        if (this.onlyContent && !text) {
+          return false
+        }
+        if (this.selectType === 2) {
+          return true
+        } else {
+          return type === this.selectType
+        }
       }
-    }
+    },
+    filters: {
+      formatDate: function (time) {
+        let date = new Date(time)
+        return formatDate(date, 'yyyy-MM-dd hh:mm')
+      }
+    },
+    computed: {}
   }
 </script>
 
@@ -148,5 +194,65 @@
           .delivery
             margin-left: 12px
             font-size: 12px
+            color: rgb(147, 153, 159)
+    .rating-wrapper
+      padding: 0 18px
+      .rating-item
+        display: flex
+        padding: 18px 0
+        border-bottom 1px solid rgba(7, 17, 27, 0.1)
+        .avatar
+          flex: 0 0 28px
+          width: 28px
+          margin-right: 12px
+          img
+            border-radius: 50%
+        .content
+          position: relative
+          flex: 1
+          .name
+            margin-bottom: 4px
+            line-height: 12px
+            font-size: 10px
+            color: rgb(7, 17, 27)
+          .star-wrapper
+            margin-bottom: 6px
+            font-size: 0
+            .star
+              display: inline-block
+              margin-right: 6px
+              vertical-align: top
+            .delivery
+              display: inline-block
+              vertical-align: top
+              line-height: 12px
+              font-size: 10px
+              color: rgb(147, 153, 159)
+          .text
+            margin-bottom: 8px
+            line-height: 18px
+            color: rgb(7, 17, 27)
+            font-size: 12px
+          .recommend
+            line-height: 16px
+            font-size: 0
+            .icon-thumb_up, .item
+              display: inline-block
+              margin: 0 8px 4px 0
+              font-size: 9px
+            .icon-thumb_up
+              color: rgb(0, 160, 220)
+            .item
+              padding: 0 6px
+              border: 1px solid rgba(7, 17, 27, 0.1)
+              border-radius: 1px
+              color: rgb(147, 153, 159)
+              background: #fff
+          .time
+            position: absolute
+            top: 0
+            right: 0
+            line-height: 12px
+            font-size: 10px
             color: rgb(147, 153, 159)
 </style>

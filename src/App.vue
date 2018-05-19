@@ -2,7 +2,7 @@
   <div id="app">
     <home-header :seller="seller"></home-header>
     <div class="tab border-1px">
-      <router-link to="/goods" class="tab-item">
+      <router-link to="/" class="tab-item">
         商品
       </router-link>
       <router-link to="/ratings" class="tab-item">
@@ -38,7 +38,6 @@
         if (res.code === ERR_OK) {
           this.seller = res.list
         }
-        console.log(res)
       })
     }
   }
