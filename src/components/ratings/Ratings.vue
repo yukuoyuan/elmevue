@@ -92,6 +92,7 @@
       axios.get('/api/ratings/').then((res) => {
         res = res.data.data
         this.ratings = res
+        console.log(res)
         this.$nextTick(() => {
           this.scroll = new BScroll(this.$refs.ratings, {
             click: true
