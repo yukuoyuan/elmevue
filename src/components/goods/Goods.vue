@@ -153,7 +153,7 @@
         // this.shopcartTarget = target
         this.$refs.shopcart.shopcartTargets(target)
       },
-      checkedFood: function (food, $event) {
+      checkedFood: function (food, event) {
         if (!event._constructed) {
           return
         }

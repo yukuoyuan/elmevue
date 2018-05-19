@@ -114,7 +114,7 @@
       hide: function () {
         this.showFlag = false
       },
-      addFirst: function ($event) {
+      addFirst: function (event) {
         if (!event._constructed) {
           return
         }

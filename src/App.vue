@@ -23,7 +23,7 @@
   const ERR_OK = 0
   export default {
     name: 'App',
-    data () {
+    data: function () {
       return {
         seller: {}
       }
@@ -32,7 +32,7 @@
       HomeHeader
     },
     methods: {},
-    created () {
+    created: function () {
       axios.get('http://localhost:3030/api/seller/').then((res) => {
         res = res.data
         if (res.code === ERR_OK) {
