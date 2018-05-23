@@ -12,7 +12,9 @@
         商家
       </router-link>
     </div>
-    <router-view :seller="seller"/>
+    <keep-alive>
+      <router-view :seller="seller"/>
+    </keep-alive>
   </div>
 </template>
 
