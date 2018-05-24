@@ -71,7 +71,9 @@
       }
     },
     created: function () {
-      axios.get('/api/goods/').then((res) => {
+      // http://ustbhuangyi.com/sell/api/goods
+      // /api/goods/
+      axios.get('http://ustbhuangyi.com/sell/api/goods').then((res) => {
         res = res.data.data
         this.goods = res
         /**

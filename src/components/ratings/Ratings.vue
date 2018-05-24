@@ -89,7 +89,9 @@
       RatingSelect
     },
     created: function () {
-      axios.get('/api/ratings/').then((res) => {
+      // http://ustbhuangyi.com/sell/api/ratings
+      // /api/ratings/
+      axios.get('http://ustbhuangyi.com/sell/api/ratings').then((res) => {
         res = res.data.data
         this.ratings = res
         console.log(res)
