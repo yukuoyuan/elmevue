@@ -35,8 +35,8 @@
     methods: {},
     created: function () {
       // http://ustbhuangyi.com/sell/api/seller
-      // /api/seller/
-      axios.get('api/seller.json').then((res) => {
+      // /mock/seller/
+      axios.get('static/mock/seller.json').then((res) => {
         console.log(res)
         res = res.data
         this.seller = res

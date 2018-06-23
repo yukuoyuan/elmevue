@@ -15,7 +15,7 @@ app.all('*', function (req, res, next) {
   next()
 })
 
-app.get('/api/seller', function (req, res) {
+app.get('/mock/seller', function (req, res) {
   // 返回的json对象
   var obj = {
     code: 0,
@@ -25,7 +25,7 @@ app.get('/api/seller', function (req, res) {
   res.jsonp(obj)
 })
 
-app.get('/api/goods', function (req, res) {
+app.get('/mock/goods', function (req, res) {
   // 返回的json对象
   var obj = {
     code: 0,
@@ -35,7 +35,7 @@ app.get('/api/goods', function (req, res) {
   res.jsonp(obj)
 })
 
-app.get('/api/ratings', function (req, res) {
+app.get('/mock/ratings', function (req, res) {
   // 返回的json对象
   var obj = {
     code: 0,

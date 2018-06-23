@@ -90,8 +90,8 @@
     },
     created: function () {
       // http://ustbhuangyi.com/sell/api/ratings
-      // /api/ratings/
-      axios.get('api/ratings.json').then((res) => {
+      // /mock/ratings/
+      axios.get('static/mock/ratings.json').then((res) => {
         res = res.data
         this.ratings = res
         console.log(res)

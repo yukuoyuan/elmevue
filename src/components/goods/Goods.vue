@@ -72,8 +72,8 @@
     },
     created: function () {
       // http://ustbhuangyi.com/sell/api/goods
-      // /api/goods/
-      axios.get('api/goods.json').then((res) => {
+      // /mock/goods/
+      axios.get('static/mock/goods.json').then((res) => {
         res = res.data
         this.goods = res
         /**
