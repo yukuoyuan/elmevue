@@ -36,8 +36,9 @@
     created: function () {
       // http://ustbhuangyi.com/sell/api/seller
       // /api/seller/
-      axios.get('/api/seller').then((res) => {
-        res = res.data.data
+      axios.get('api/seller.json').then((res) => {
+        console.log(res)
+        res = res.data
         this.seller = res
       })
     }

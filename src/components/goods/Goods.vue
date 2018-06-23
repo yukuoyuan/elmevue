@@ -73,8 +73,8 @@
     created: function () {
       // http://ustbhuangyi.com/sell/api/goods
       // /api/goods/
-      axios.get('/api/goods').then((res) => {
-        res = res.data.data
+      axios.get('api/goods.json').then((res) => {
+        res = res.data
         this.goods = res
         /**
          * 延迟去初始化滚动,因为这个时候dom还没有更新完毕,类似于settimeout的延时操作

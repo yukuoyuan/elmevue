@@ -91,8 +91,8 @@
     created: function () {
       // http://ustbhuangyi.com/sell/api/ratings
       // /api/ratings/
-      axios.get('/api/ratings').then((res) => {
-        res = res.data.data
+      axios.get('api/ratings.json').then((res) => {
+        res = res.data
         this.ratings = res
         console.log(res)
         this.$nextTick(() => {
